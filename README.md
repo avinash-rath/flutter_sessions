@@ -1,6 +1,6 @@
 # flutter_sessions
 
-A new Flutter application.
+Creating a Messaging app like WhatsApp in `Flutter` for the flutter sessions being conducted in CSE Dept. NMIT.
 
 ## Getting Started
 
