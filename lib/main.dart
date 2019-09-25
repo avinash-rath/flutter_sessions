@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RespondEvents(),
+      home: HeartButton(),
     );
   }
 }
@@ -35,7 +35,7 @@ class _RespondEventsState extends State<RespondEvents> {
               controller: _controller,
               onChanged: (String something) {
                 setState(() {
-                  text=_controller.text;
+                  text = _controller.text;
                 });
               },
             ),
@@ -54,4 +54,35 @@ class _RespondEventsState extends State<RespondEvents> {
   }
 }
 
+class HeartButton extends StatefulWidget {
+  @override
+  _HeartButtonState createState() => _HeartButtonState();
+}
 
+class _HeartButtonState extends State<HeartButton> {
+  bool isSelected = false;
+
+  IconData icon = Icons.favorite_border;
+  Color color = Colors.black;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            print('tapped');
+            setState(() {
+              isSelected = !isSelected;
+              icon = isSelected ? Icons.favorite_border : Icons.favorite;
+              color = !isSelected ? Colors.red : Colors.black;
+            });
+          },
+          child: Container(
+            child: Icon(icon, color: color, size: 75.0,),
+            alignment: Alignment.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
