@@ -25,12 +25,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     // MyApp as the app that we want to run, we must return an App.
     // That is done here by a MaterialApp object.
     return MaterialApp(
-      // `debugShowCheckedModeBanner` is set to `false` in order to remove
-      // debug banner that is visible by default on topRight corner of the
-      // app.
-      debugShowCheckedModeBanner: false,
-      // The `home` for our app is a HomePage class object(defined by us.)
-      home: HomePage());
+        // `debugShowCheckedModeBanner` is set to `false` in order to remove
+        // debug banner that is visible by default on topRight corner of the
+        // app.
+        debugShowCheckedModeBanner: false,
+        // The `home` for our app is a HomePage class object(defined by us.)
+        home: HomePage());
   }
 }
 
@@ -44,14 +44,53 @@ class _HomePageState extends State<HomePage>
   TabController controller;
   @override
   void initState() {
-    // TODO: implement initState
+    // `initState()` is a function which is used to initiliaze the
+    // state.
+    // But we need to initialize the state of the parent class from
+    // which we have inherite our class or widget. We use `super` keyword for
+    // for defining that we want to call the initState() function of the
+    // parent class
+
+    // `super` is the object of the parent class and `this` is the object
+    // of the class of which function is being called.
+
+    // for more understanding of `super` and `this`, study about the
+    // OOP paradigm (Object Orientation Programming)
     super.initState();
+    // controllers are a means to give control to the parent
+    // widget over its child state.
+    // The main point of controllers is that they remove the
+    // need of a GlobalKey to access the widget State.
+
+    // This makes it harder to do anti-pattern stuff and increase performance
+
+    // `new` is used to create a new instance of any class, object or widget
+    // `new` was made optional by Dart 2.0
+    // As of now, calling a class will always return a new instance of that class.
+    // For code clarity, it is recommended to use it outside the layout definition.
+
+    // `TabControlle`r is a class which is used for creating new tab and
+    // monitoring it's status
     controller = new TabController(
+      // `length` is used for defining how many tabs we need.
+      // WhatsApp is having 3 tabs namely chat, status and call
       length: 3,
+      // the initial value of Index is set to 0
+      // it means whenever the app is opened the tab with index 0
+      // will be the one opened initally
       initialIndex: 0,
+      // `vsync` is used for synchronising the frame rate of the application to the
+      //  refresh rate of the display.
+      // In simple terms, the frames per second matches to the refresh rate (The frequency
+      // at which the display updates it's contents) to provide more fluid animation
+
+      // if no vsync is used, it could cause stuttering in case of low frame rates compared to
+      // the refresh rate of the display.
+      // or screen tearing  if the frame rates are higher than the refresh rate of the display
       vsync: this,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     // Color class objects help define colors through either a Color()
@@ -64,14 +103,21 @@ class _HomePageState extends State<HomePage>
       // properties, as in `title`, `backgroundColor`, `centerTitle`,
       // `actions`, etc.
       appBar: AppBar(
+        // bottom property is used to add anything to the bottom of the app
+        // bar provided by the Scaffold
         bottom: TabBar(
           controller: controller,
         ),
         actions: <Widget>[
+          // `IconButton` class is used to create a button with icon in it
+          // there is a required parameter in it called `OnPressed`
           IconButton(
             icon: Icon(Icons.search),
             color: Colors.white,
-            onPressed: () {
+            // The `onPressed` is used to define what actions will it take
+            // when the button is pressed.
+            // By default it is only shows a ripple animation when it is touched
+            onPressed: (){
               //TODO
             },
           ),
@@ -104,7 +150,7 @@ class _HomePageState extends State<HomePage>
 class WhatsAppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //A Container is a convenience widget that combines common 
+    //A Container is a convenience widget that combines common
     //painting, positioning, and sizing widgets.
 
     //We can only add one child to the Container
@@ -121,12 +167,13 @@ class WhatsAppCard extends StatelessWidget {
       child: Row(
         // Row is one of the three widgets which is having property children
         // which is used for adding multiple widgets instead of a single widget to it
-        
-        // there are two alignment properties present i.e. mainAxisAlignment and crossAxisAlignment
+
+        // there are two alignment properties present i.e. mainAxisAlignment
+        // and crossAxisAlignment
         // mainAxisAlignment is use to align the main axis where crossAxisAlignment is used to
         // align the axis perpendicular to the main axis
 
-        // Here the vertical axis is perpendicular to main axis as Row's main axis is defined 
+        // Here the vertical axis is perpendicular to main axis as Row's main axis is defined
         // horizontally
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -154,14 +201,14 @@ class WhatsAppCard extends StatelessWidget {
               // mainAxisAlignment is use to align the main axis where crossAxisAlignment is used to
               // align the axis perpendicular to the main axis
 
-              // Here the horizontal axis is perpendicular to the main axis as Column's 
+              // Here the horizontal axis is perpendicular to the main axis as Column's
               // main axis is defined vertically
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-              // Text widget is used to add text.
-              // It is having different properties like `style`, `textAlign`,
-              // `textDirection` and many more
+                // Text widget is used to add text.
+                // It is having different properties like `style`, `textAlign`,
+                // `textDirection` and many more
                 Text(
                   'Avinash',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
