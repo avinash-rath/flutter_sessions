@@ -57,9 +57,36 @@ class _HomePageState extends State<HomePage>
     // for more understanding of `super` and `this`, study about the
     // OOP paradigm (Object Orientation Programming)
     super.initState();
+    // controllers are a means to give control to the parent
+    // widget over its child state.
+    // The main point of controllers is that they remove the
+    // need of a GlobalKey to access the widget State.
+
+    // This makes it harder to do anti-pattern stuff and increase performance
+
+    // `new` is used to create a new instance of any class, object or widget
+    // `new` was made optional by Dart 2.0
+    // As of now, calling a class will always return a new instance of that class.
+    // For code clarity, it is recommended to use it outside the layout definition.
+
+    // `TabControlle`r is a class which is used for creating new tab and
+    // monitoring it's status
     controller = new TabController(
+      // `length` is used for defining how many tabs we need.
+      // WhatsApp is having 3 tabs namely chat, status and call
       length: 3,
+      // the initial value of Index is set to 0
+      // it means whenever the app is opened the tab with index 0
+      // will be the one opened initally
       initialIndex: 0,
+      // `vsync` is used for synchronising the frame rate of the application to the
+      //  refresh rate of the display.
+      // In simple terms, the frames per second matches to the refresh rate (The frequency
+      // at which the display updates it's contents) to provide more fluid animation
+
+      // if no vsync is used, it could cause stuttering in case of low frame rates compared to
+      // the refresh rate of the display.
+      // or screen tearing  if the frame rates are higher than the refresh rate of the display
       vsync: this,
     );
   }
@@ -82,10 +109,15 @@ class _HomePageState extends State<HomePage>
           controller: controller,
         ),
         actions: <Widget>[
+          // `IconButton` class is used to create a button with icon in it
+          // there is a required parameter in it called `OnPressed`
           IconButton(
             icon: Icon(Icons.search),
             color: Colors.white,
-            onPressed: () {
+            // The `onPressed` is used to define what actions will it take
+            // when the button is pressed.
+            // By default it is only shows a ripple animation when it is touched
+            onPressed: (){
               //TODO
             },
           ),
@@ -136,7 +168,8 @@ class WhatsAppCard extends StatelessWidget {
         // Row is one of the three widgets which is having property children
         // which is used for adding multiple widgets instead of a single widget to it
 
-        // there are two alignment properties present i.e. mainAxisAlignment and crossAxisAlignment
+        // there are two alignment properties present i.e. mainAxisAlignment
+        // and crossAxisAlignment
         // mainAxisAlignment is use to align the main axis where crossAxisAlignment is used to
         // align the axis perpendicular to the main axis
 
