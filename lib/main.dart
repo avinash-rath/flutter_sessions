@@ -39,7 +39,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       appBar: AppBar(
         bottom: TabBar(
+          indicatorColor:Colors.white ,
           controller: controller,
+          tabs: <Widget>[
+            Tab(child: Text("chats"),),
+            Tab(child: Text("status"),),
+            Tab(child: Text("calls"),)
+          ],
+          
         ),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.search),
