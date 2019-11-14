@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
 
 //right now we are using stateless widget for our myApp class, so let us
-//implement using stateless widget later
+//implement using stateful widget later
 
 //class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 //  @override
