@@ -5,43 +5,63 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 // The program starts from main() function.
 
+
 // MyApp(here) is the starting point of the app.
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
 // overriding `createState` method
 // extending StatefulWidget Widget
   @override
 // underscore '_' defines a variable as private.
 // It is the part of the dart language
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
-  @override
-  // `build` method always needs to be overriden in a class
-  // extending StatelessWidget or a StatefulWidget.
-  // `build` method defines what gets rendered on the mobile screen.
-  Widget build(BuildContext context) {
-    // Since we want to run an App in the main method, and we have provided
-    // MyApp as the app that we want to run, we must return an App.
-    // That is done here by a MaterialApp object.
-    return MaterialApp(
-        // `debugShowCheckedModeBanner` is set to `false` in order to remove
-        // debug banner that is visible by default on topRight corner of the
-        // app.
-        debugShowCheckedModeBanner: false,
-        // The `home` for our app is a HomePage class object(defined by us.)
-        home: HomePage());
+  Widget build(BuildContext context){
+    return MaterialApp(debugShowCheckedModeBanner: false,home: HomePage(),);
   }
 }
 
+
+//right now we are using stateless widget for our myApp class, so let us
+//implement using stateful widget later
+
+//class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+//  @override
+  // `build` method always needs to be overriden in a class
+  // extending StatelessWidget or a StatefulWidget.
+  // `build` method defines what gets rendered on the mobile screen.
+//  Widget build(BuildContext context) {
+    // Since we want to run an App in the main method, and we have provided
+    // MyApp as the app that we want to run, we must return an App.
+    // That is done here by a MaterialApp object.
+//    return MaterialApp(
+        // `debugShowCheckedModeBanner` is set to `false` in order to remove
+        // debug banner that is visible by default on topRight corner of the
+        // app.
+//        debugShowCheckedModeBanner: false,
+        // The `home` for our app is a HomePage class object(defined by us.)
+//        home: HomePage());
+//  }
+
+//Here we create a stateful widget as we need changes in the body of the scaffold
+//when we make changes in the homepage
 class HomePage extends StatefulWidget {
   @override
+//Thanks to createState() function, this widget can be changed at any point
+//in the tree
+// and if it is called at multiple locations in the tree, a new object is
+// created for each time its called, and each of these objects has its own
+// values for its datamembers.
   _HomePageState createState() => _HomePageState();
 }
 
+//Ticker - It is a class, whose object
+// calls the _HomePageState callback once per animation frame
+//SingleTickerProviderStateMixin - provides 1 ticker
+//State<> has the logic and internal state for a Stateful Widget
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
+//TabController class - Coordinates selection between tabs
   TabController controller;
+
   @override
   void initState() {
     // `initState()` is a function which is used to initiliaze the
@@ -91,6 +111,72 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+//Here we are making a list of the details of the Objects of WhatsAppDetaisl
+//we declare this listabove the build method in the HomePageState Class
+List<WhatsAppDetails> details = [
+    WhatsAppDetails(
+      'Avinash',
+      "hello world",
+      '12:45',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Avi',
+      "hi world",
+      '12:45',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Rath',
+      "Meh",
+      '02:75',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Flutter Team',
+      "Happy Diwali",
+      '00:00',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Flutter Team',
+      "Happy Diwali",
+      '00:00',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Somebody',
+      "Hhahahahahwali",
+      '12:33',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Someone',
+      "Happy Diwali",
+      '00:00',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Flutter Team',
+      "asd Diwali",
+      '05:12',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Flasdasd',
+      "New Year wali Diwali",
+      '20:00',
+      MessageStatus.delivered,
+    ),
+    WhatsAppDetails(
+      'Flsdf',
+      "Haasdasdasdiwali",
+      '22:12',
+      MessageStatus.delivered,
+    ),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     // Color class objects help define colors through either a Color()
@@ -106,7 +192,16 @@ class _HomePageState extends State<HomePage>
         // bottom property is used to add anything to the bottom of the app
         // bar provided by the Scaffold
         bottom: TabBar(
+          //color of the line that appears below selected tab
+          indicatorColor: Colors.white,
           controller: controller,
+          //list of the tab widgets, number of which must be same as length 
+          // specified before.
+          tabs: <Widget>[
+            Tab(child: Text("chats"),),
+            Tab(child: Text("status"),),
+            Tab(child: Text("calls"),),
+          ],
         ),
         actions: <Widget>[
           // `IconButton` class is used to create a button with icon in it
@@ -131,6 +226,7 @@ class _HomePageState extends State<HomePage>
         backgroundColor: whatsAppColor,
         title: Text('WhatsApp'),
       ),
+      //added a floating action button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //TODO
@@ -138,16 +234,42 @@ class _HomePageState extends State<HomePage>
         child: Icon(Icons.chat),
         backgroundColor: whatsAppColor,
       ),
+
+      //here in body, we have a listView builder that creates a scrollable,
+      // linear array of widgets on demand.
       body: ListView.builder(
-          itemCount: 10,
+
+          //itemCount is self explanatory, length is a function that returns
+          // length of the list - "details".
+          itemCount: details.length,
           itemBuilder: (BuildContext context, int count) {
-            return WhatsAppCard();
+            return WhatsAppCard(
+              name: details[count].name,
+              message: details[count].message,
+              time: details[count].time,
+              status: details[count].status,
+            );
           }),
     );
   }
 }
 
 class WhatsAppCard extends StatelessWidget {
+
+  //declare global variables, in final mode so it can be assigned only once
+  final String name;
+  final String message;
+  final String time;
+  final MessageStatus status;
+
+  //call constructor of WhatsAppCard
+  WhatsAppCard({
+    this.message,
+    this.name,
+    this.status,
+    this.time,
+  });
+
   @override
   Widget build(BuildContext context) {
     //A Container is a convenience widget that combines common
@@ -210,7 +332,7 @@ class WhatsAppCard extends StatelessWidget {
                 // It is having different properties like `style`, `textAlign`,
                 // `textDirection` and many more
                 Text(
-                  'Avinash',
+                  name,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),
                 Row(
@@ -222,7 +344,7 @@ class WhatsAppCard extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     Text(
-                      'Hi!',
+                      message,
                       style: TextStyle(color: Colors.grey),
                     )
                   ],
@@ -237,10 +359,58 @@ class WhatsAppCard extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top: 14.0),
-            child: Text('15:32'),
+            child: Text(time),
           ),
         ],
       ),
     );
   }
 }
+
+//class to create objects containing details,
+// having members name, message,time and messageStatus
+class WhatsAppDetails {
+  String name;
+  String message;
+  String time;
+  MessageStatus status;
+
+  //constructor
+  WhatsAppDetails(
+    this.name,
+    this.message,
+    this.time,
+    this.status,
+  );
+}
+
+//enum (enumeration) is a user defined datatype
+enum MessageStatus { delivered, received, seen }
+
+//example of enum
+/*#
+//syntax
+//keyword
+//enum enum_name{element1,element2,element3}
+  here element1 has state_value 0
+  here element2 has state_value 1
+  here element3 has state_value 2
+
+  enum enum_name element1
+  print(enum_name)
+  we get output as 1
+  basically the state value is returned
+
+
+  program to demonstrate enum
+  enum week{Mon, Tue, Wed, Thur, Fri, Sat, Sun};
+
+int main()
+{
+    enum week day; //this is the instaniation of enum week
+    day = Wed;
+    print(day);
+    return 0;
+}
+here output is 2
+*/
